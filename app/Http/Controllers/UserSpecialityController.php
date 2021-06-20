@@ -18,15 +18,36 @@ class UserSpecialityController extends Controller
     {
         $user = User::findOrFail($id);
         $using = User_Speciality::select('speciality_id')->where('user_id',$id)->get();
-        // Role::whereIn('id', $using)->get();
-        $User_Speciality = User_Speciality::where('user_id',$id)->get();
-        $User_Speciality->load('speciality');
-        $User_Speciality->load('user');
-        //dd($user);
-        $speciality = Speciality::whereNotin('id', $using)->get();
-        return view('report.permissions', compact('roles'),compact('User_Speciality'))->with('usuario',$user);
+        $User_Specialities = User_Speciality::where('user_id',$id)->get();
+        $User_Specialities->load('speciality');
+        $User_Specialities->load('user');
+        $specialities = Speciality::whereNotin('id', $using)->get();
+        return view('report.specialities', compact('specialities'),compact('User_Specialities'))->with('usuario',$user);
     }
 
+    public function setSpeciality($id,$speciality){
+        User_Speciality::create([
+            'user_id' => $id,
+            'speciality_id' => $speciality
+        ]);     
+        return redirect()->route('user.specialities', $id);
+    }
+
+    public function activateSpeciality($id){
+        $user_Speciality = User_Speciality::findOrFail($id);
+        $user_Speciality->load('user');
+        $user_Speciality->status = 1;
+        $user_Speciality->update();
+        return redirect()->route('user.specialities', $user_Speciality->user->id);
+    }
+
+    public function desactivateSpeciality($id){
+        $user_Speciality = User_Speciality::findOrFail($id);
+        $user_Speciality->load('user');
+        $user_Speciality->status = 0;
+        $user_Speciality->update();
+        return redirect()->route('user.specialities', $user_Speciality->user->id);
+    }
     /**
      * Show the form for creating a new resource.
      *

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Instrument_type;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -17,5 +18,9 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(SectionSeeder::class);
+        $this->call(SpecialitySeeder::class);
+        $this->call(ServiceSeeder::class);
+        $this->call(InstrumentTypeSeeder::class);
+        $this->call(InstrumentSeeder::class);
     }
 }

@@ -21,8 +21,16 @@
     <br>
     <div class="container">
         <br>
-        <a href= {{route('user.locations.register') }} ><button type="button" class="btn btn-success btn-lg btn-block">Nueva direccion</button></a>
-        <h1>Mis ubicaciones</h1>
+        {{-- I'm using isset in order to know if I got a variable "$user" inside this view --}}
+        @if (isset($user) && $user->id == Auth::user()->id)
+            <a href= {{route('user.locations.register') }} ><button type="button" class="btn btn-success btn-lg btn-block">Nueva direccion</button></a>        
+        @endif
+        @if (isset($user))
+        <h1>{{"Ubidaciones de ".$user->name}}</h1>
+        @else
+        <h1>{{"Ubidaciones de ".Auth::user()->name}}</h1>
+        @endif
+        
         <table class="table table-striped">
             <thead>
                   <th>Titulo</th>

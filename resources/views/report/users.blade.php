@@ -40,7 +40,9 @@
                         <td>
                             <a href="{{route('user.permissions',$user->id)}}"><button type="button" class="btn btn-warning">Roles</button></a>
                             <a href="#"><button type="button" class="btn btn-danger" onclick="return confirm('Seguro que quiere borrar esta especie?')">Borrar</button></a>                 
-
+                            <a href="{{route('user.edit',$user->id)}}"><button type="button" class="btn btn-info">Editar</button></a>
+                            <a href="{{route('user.perfil.locations',$user->id)}}"><button type="button" class="btn btn-primary">Ubicaciones</button></a>
+                            
                         </td>
                    </tr> 
                 @endforeach

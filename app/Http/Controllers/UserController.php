@@ -34,12 +34,33 @@ class UserController extends Controller
     public function showNurses(){
         $permissions = Permission::select('user_id')->where('role_id',3)->where('status',1)->get();
         $users = User::whereIn('id', $permissions )->get();
-        return view('report.Admins', compact('users'));
+        return view('report.Nurses', compact('users'));
     }
 
     public function showPatients(){
         $permissions = Permission::select('user_id')->where('role_id',1)->where('status',1)->get();
         $users = User::whereIn('id', $permissions )->get();
-        return view('report.Admins', compact('users'));
+        return view('report.Patients', compact('users'));
+    }
+
+    public function update(Request $request, $id){
+        $credentials =   Request()->validate([
+            'phone' => ['string'],
+            'name' => ['required', 'string'],
+            'user' => ['required', 'string'],
+            'email' => ['email'],     
+        ]);
+        $user = User::findOrFail($id);
+        $user->phone = $request->get('phone');
+        $user->name = $request->get('name');
+        $user->user = $request->get('user');
+        $user->email = $request->get('email');
+        $user->update();
+        return redirect()->route('user.all');
+    }
+
+    public function edit($id){
+        $user = User::findOrFail($id);
+        return view('update.users',compact('user'));
     }
 }

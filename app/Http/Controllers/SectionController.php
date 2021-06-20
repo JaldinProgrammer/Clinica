@@ -14,7 +14,8 @@ class SectionController extends Controller
      */
     public function index()
     {
-        //
+        $sections = Section::all();
+        return view('report.sections',compact('sections'));
     }
 
     /**
@@ -22,9 +23,53 @@ class SectionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function register(){
+        return view('register.sections');
+    }
+
     public function create()
     {
-        //
+        $credentials =   Request()->validate([
+            'price' => ['string'],
+            'name' => ['required', 'string'],  
+        ]);
+        Section::create([
+            'price' => request('price'),
+            'name' => request('name'),
+        ]);
+        return redirect()->route('sections.all');
+    }
+
+    public function edit($id){
+        $section = Section::findOrFail($id);
+        return view('update.sections', compact('section'));
+    }
+
+    public function update($id){
+        $credentials =   Request()->validate([
+            'price' => ['string'],
+            'name' => ['required', 'string'],  
+        ]);
+        $section = Section::findOrFail($id);
+        $section->price = Request('price');
+        $section->name = Request('name');
+        $section->update();
+        return redirect()->route('sections.all');
+    }
+
+    public function activateSection($id){
+        $section = Section::findOrFail($id);
+        $section->status = 1;
+        $section->update();
+        return redirect()->route('sections.all');
+    }
+
+    public function desactivateSection($id){
+        $section = Section::findOrFail($id);
+        $section->status = 0;
+        $section->update();
+        return redirect()->route('sections.all');
     }
 
     /**
@@ -55,10 +100,6 @@ class SectionController extends Controller
      * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function edit(Section $section)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -67,10 +108,6 @@ class SectionController extends Controller
      * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Section $section)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

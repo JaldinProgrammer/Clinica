@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Location;
 use App\Models\Section;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +25,9 @@ class LocationController extends Controller
     public function userLocations($id)
     {
         $locations = Location::where('user_id',$id)->get();
-        return view('report.locations', compact('locations'));
+        $user = User::findOrFail($id);
+        $locations->load('user');
+        return view('report.locations', compact('locations'), compact('user'));
     }
     /**
      * Show the form for creating a new resource.

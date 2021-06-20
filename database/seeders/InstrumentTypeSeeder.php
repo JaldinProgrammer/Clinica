@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Facades\DB;
 class InstrumentTypeSeeder extends Seeder
 {
     /**
@@ -13,6 +13,19 @@ class InstrumentTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('instrument_types')->insert([
+            [
+                'name' => 'Material de antisepsia'
+            ],
+            [
+                'name' => 'Material corto punzante'
+            ],
+            [
+                'name' => 'Material esteril'
+            ],
+            [
+                'name' => 'Farmacos'
+            ]
+        ]);
     }
 }

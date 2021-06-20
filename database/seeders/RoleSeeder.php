@@ -24,7 +24,7 @@ class RoleSeeder extends Seeder
             [
                 'name' => 'personal medico'
             ]
-            ]);
+        ]);
     
     }
 }

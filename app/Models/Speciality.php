@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Speciality extends Model
 {
     use HasFactory;
+    public function specialities(){
+        return $this->BelongsTo('App\Models\Speciality');
+    }
 }

@@ -51,4 +51,8 @@ class User extends Authenticatable
     public function permissions(){
         return $this->BelongsTo('App\Models\Permission');
     }
+
+    public function specialities(){
+        return $this->BelongsTo('App\Models\Speciality');
+    }
 }

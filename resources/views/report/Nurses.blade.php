@@ -22,7 +22,7 @@
     <div class="container">
         <br>
         <a href= {{route('user.register') }} ><button type="button" class="btn btn-success btn-lg btn-block">Nuevo usuario</button></a>
-        <h1>usuarios</h1>
+        <h1>Personal medico</h1>
         <table class="table table-striped">
             <thead>
                   <th>Nombre</th>
@@ -39,9 +39,8 @@
                         <td>{{$user->email}}</td>             
                         <td>
                             <a href="{{route('user.permissions',$user->id)}}"><button type="button" class="btn btn-warning">Roles</button></a>
-                            <a href="{{route('user.permissions',$user->id)}}"><button type="button" class="btn btn-warning">Espercialidades</button></a>
+                            <a href="{{route('user.specialities',$user->id)}}"><button type="button" class="btn btn-warning">Espercialidades</button></a>
                             <a href="#"><button type="button" class="btn btn-danger" onclick="return confirm('Seguro que quiere borrar esta especie?')">Borrar</button></a>                 
-
                         </td>
                    </tr> 
                 @endforeach
