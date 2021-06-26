@@ -20,8 +20,9 @@ class CreateReservationsTable extends Migration
             $table->integer('status')->default('0')->nullable();
             $table->time('time');
             $table->integer('virtualMeeting')->default('0')->nullable();
-            $table->integer('virtualPayment')->default('0')->nullable();
-            $table->foreignId('location_id')->constrained('locations')->nullable();
+            $table->unsignedBigInteger('location_id')->nullable(); // if u wanna declarate a nullable fk u must to declare the fk by this way
+            // $table->integer('virtualPayment')->default('0')->nullable();
+            $table->foreign('location_id')->references('id')->on('locations');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('service_id')->constrained('services');
             $table->timestamps();

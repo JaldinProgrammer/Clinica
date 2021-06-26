@@ -16,8 +16,8 @@ class CreateAttentionsTable extends Migration
         Schema::create('attentions', function (Blueprint $table) {
             $table->id();
             $table->time('checkIn')->nullable();
+            $table->date('date');
             $table->time('checkOut')->nullable();
-            $table->string('qrPayment')->nullable();
             $table->float('totalPrice')->nullable();
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('nurse_id');

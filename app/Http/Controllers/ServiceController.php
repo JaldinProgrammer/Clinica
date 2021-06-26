@@ -14,7 +14,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        $services = Service::orderby('id','DESC')->paginate(3);
+        return view('report.services', compact('services'));
     }
 
     /**
@@ -24,9 +25,51 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        $credentials =   Request()->validate([
+            'name' => ['required','string'],
+            'price' => ['required','numeric']
+        ]);
+        Service::create([
+            'name' => request('name'),
+            'price' => request('price')
+        ]);
+        return redirect()->route('service.all');
     }
 
+    public function activate($id){
+        $service = Service::findOrFail($id);
+        $service->status = 1;
+        $service->update();
+        return redirect()->route('service.all');
+    }
+
+    public function desactivate($id){
+        $service = Service::findOrFail($id);
+        $service->status = 0;
+        $service->update();
+        return redirect()->route('service.all');
+    }
+
+    
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Service  $service
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request,$id)
+    {
+        $credentials =   Request()->validate([
+            'name' => ['required','string'],
+            'price' => ['required','numeric']
+        ]);
+        $service = Service::findOrFail($id);
+        $service->name = Request('name');
+        $service->price = Request('price');
+        $service->update();
+        return redirect()->route('service.all');
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -60,17 +103,6 @@ class ServiceController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Service  $service
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Service $service)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

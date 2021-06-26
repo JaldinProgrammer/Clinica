@@ -44,13 +44,20 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id){
+        $user = User::findOrFail($id);
+        if($user->user != request('user')){
+            $name = User::where('user',request('user'))->get();
+            //dd($name);
+            if(sizeof($name)!=0 ){
+                return back()->withErrors('Este nombre de usuario ya existe');
+            }
+        }
         $credentials =   Request()->validate([
             'phone' => ['string'],
             'name' => ['required', 'string'],
-            'user' => ['required', 'string'],
+            'user' => ['required','string'],
             'email' => ['email'],     
         ]);
-        $user = User::findOrFail($id);
         $user->phone = $request->get('phone');
         $user->name = $request->get('name');
         $user->user = $request->get('user');

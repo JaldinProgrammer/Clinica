@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ServiceSeeder::class);
         $this->call(InstrumentTypeSeeder::class);
         $this->call(InstrumentSeeder::class);
+        $this->call(PermissionSeeder::class);
+       // $this->call(ReservationSeeder::class);
     }
 }

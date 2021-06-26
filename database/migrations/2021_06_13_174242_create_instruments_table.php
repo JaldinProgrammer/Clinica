@@ -18,6 +18,7 @@ class CreateInstrumentsTable extends Migration
             $table->string('name');
             $table->float('price');
             $table->integer('stock');
+            $table->Integer('status')->default('1');
             $table->foreignId('instrument_type_id')->constrained('instrument_types');
             $table->timestamps();
         });

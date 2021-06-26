@@ -20,7 +20,9 @@
         
     </div>
 
-    {{-- @include('layouts.nav')
+   {{-- @include('layouts.nav')
+
+
         <h1>Dashboard</h1>
         @can('admin')
             <h1>Hola soy el admin</h1>
@@ -30,6 +32,6 @@
         @endcan 
         @can('patient')
             <h1>Hola soy el paciente</h1>
-        @endcan  --}}
+        @endcan   --}}
 </body>
 </html>

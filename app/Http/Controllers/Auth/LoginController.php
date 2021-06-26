@@ -36,6 +36,11 @@ class LoginController extends Controller
 
     public function create(){
         //dd(request());
+        $name = User::where('user',request('user'))->get();
+        //dd($name);
+        if(sizeof($name)!=0 ){
+            return back()->withErrors('Este nombre de usuario ya existe');
+        }
         $credentials =   Request()->validate([
             'phone' => ['string'],
             'name' => ['required', 'string'],
@@ -50,7 +55,7 @@ class LoginController extends Controller
             'email' => request('email'),   
             'password' => Hash::make(request('password')),
         ]);
-        return redirect('/');
+        return redirect()->route('user.all');
     }
 
     public function perfil(){

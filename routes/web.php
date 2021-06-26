@@ -1,13 +1,21 @@
 <?php
 
+use App\Http\Controllers\AttentionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\InstrumentController;
+use App\Http\Controllers\InstrumentTypeController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SpecialityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSpecialityController;
+use App\Models\Instrument_type;
 use App\Models\User;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,4 +71,52 @@ Route::get('sections/edit/{id}',[SectionController::class, 'edit'])->name('secti
 Route::post('sections/update/{id}',[SectionController::class, 'update'])->name('sections.update')->middleware(['auth']);
 Route::get('sections/activateSection/{id}',[SectionController::class, 'activateSection'])->name('sections.activateSection')->middleware(['auth']);
 Route::get('sections/desactivateSection/{id}',[SectionController::class, 'desactivateSection'])->name('sections.desactivateSection')->middleware(['auth']);
+
+Route::get('instrument',[InstrumentTypeController::class, 'index'])->name('instrument.all')->middleware(['auth']);
+Route::post('instrument/create',[InstrumentTypeController::class, 'create'])->name('instrument.create')->middleware(['auth']);
+Route::get('instrument/activate/{id}',[InstrumentTypeController::class, 'activate'])->name('instrument.activate')->middleware(['auth']);
+Route::get('instrument/desactivate/{id}',[InstrumentTypeController::class, 'desactivate'])->name('instrument.desactivate')->middleware(['auth']);
+Route::post('instrument/update/{id}',[InstrumentTypeController::class, 'update'])->name('instrument.update')->middleware(['auth']);
+
+Route::get('instruments/all',[InstrumentController::class, 'index'])->name('instruments.eachOne')->middleware(['auth']);
+Route::post('instruments/create',[InstrumentController::class, 'create'])->name('instruments.createOne')->middleware(['auth']);
+Route::get('instruments/activate/{id}',[InstrumentController::class, 'activate'])->name('instruments.activateOne')->middleware(['auth']);
+Route::get('instruments/desactivate/{id}',[InstrumentController::class, 'desactivate'])->name('instruments.desactivateOne')->middleware(['auth']);
+Route::get('instruments/edit/{id}',[InstrumentController::class, 'edit'])->name('instruments.editOne')->middleware(['auth']);
+Route::post('instruments/update/{id}',[InstrumentController::class, 'update'])->name('instruments.updateOne')->middleware(['auth']);
+
+Route::get('speciality/all',[SpecialityController::class, 'index'])->name('speciality.all')->middleware(['auth']);
+Route::post('speciality/create',[SpecialityController::class, 'create'])->name('speciality.create')->middleware(['auth']);
+Route::get('speciality/activate/{id}',[SpecialityController::class, 'activate'])->name('speciality.activate')->middleware(['auth']);
+Route::get('speciality/desactivate/{id}',[SpecialityController::class, 'desactivate'])->name('speciality.desactivate')->middleware(['auth']);
+Route::post('speciality/update/{id}',[SpecialityController::class, 'update'])->name('speciality.update')->middleware(['auth']);
+
+Route::get('service/all',[ServiceController::class, 'index'])->name('service.all')->middleware(['auth']);
+Route::post('service/create',[ServiceController::class, 'create'])->name('service.create')->middleware(['auth']);
+Route::get('service/activate/{id}',[ServiceController::class, 'activate'])->name('service.activate')->middleware(['auth']);
+Route::get('service/desactivate/{id}',[ServiceController::class, 'desactivate'])->name('service.desactivate')->middleware(['auth']);
+Route::post('service/update/{id}',[ServiceController::class, 'update'])->name('service.update')->middleware(['auth']);
+
+Route::get('reservation/all',[ReservationController::class, 'index'])->name('reservation.all')->middleware(['auth']);
+Route::get('reservation/myReservations/{id}',[ReservationController::class, 'myReservations'])->name('reservation.myReservations')->middleware(['auth']);
+Route::get('reservation/register/{id}',[ReservationController::class, 'register'])->name('reservation.register')->middleware(['auth']);
+Route::post('reservation/create',[ReservationController::class, 'create'])->name('reservation.create')->middleware(['auth']);
+Route::get('reservation/activate/{id}',[ReservationController::class, 'activate'])->name('reservation.activate')->middleware(['auth']);
+Route::get('reservation/desactivate/{id}',[ReservationController::class, 'desactivate'])->name('reservation.desactivate')->middleware(['auth']);
+Route::post('reservation/update/{id}',[ReservationController::class, 'update'])->name('reservation.update')->middleware(['auth']);
+// Route::get('reservation/edit/{id}',[ReservationController::class, 'edit'])->name('reservation.edit')->middleware(['auth']);
+Route::get('reservation/searchedReservations',[ReservationController::class, 'searched'])->name('reservation.dateSearched')->middleware(['auth']);
+Route::get('reservation/nowReservations',[ReservationController::class, 'nowReservations'])->name('reservation.nowReservations')->middleware(['auth']);
+Route::get('reservation/futureReservations',[ReservationController::class, 'futureReservations'])->name('reservation.futureReservations')->middleware(['auth']);
+Route::get('reservation/pastReservations',[ReservationController::class, 'pastReservations'])->name('reservation.pastReservations')->middleware(['auth']);
+Route::get('reservation/delete/{id}',[ReservationController::class, 'delete'])->name('reservation.delete')->middleware(['auth']);
+
+Route::post('schedule/create',[ScheduleController::class, 'create'])->name('schedule.create')->middleware(['auth']);
+Route::get('schedule/mySchedule/{id}',[ScheduleController::class, 'mySchedule'])->name('schedule.mySchedule')->middleware(['auth']);
+Route::get('schedule/down/{id}',[ScheduleController::class, 'down'])->name('schedule.down')->middleware(['auth']);
+
+Route::get('attention/all',[AttentionController::class, 'index'])->name('attention.index')->middleware(['auth']);
+Route::get('attention/attention/{id}',[AttentionController::class, 'attention'])->name('attention.attention')->middleware(['auth']);
+Route::post('attention/create',[AttentionController::class, 'create'])->name('attention.create')->middleware(['auth']);
+Route::post('attention/update/{id}',[AttentionController::class, 'update'])->name('attention.update')->middleware(['auth']);
 

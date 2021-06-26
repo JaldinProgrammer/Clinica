@@ -25,8 +25,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('patient', function($user){         
+        Gate::define('patient', function($user){   
+            
             $permissions = DB::table('permissions')->where('role_id',1)->where('user_id',$user->id)->where('status',1)->get();
+            // si es que la longitud de la consulta permission 0 != 0 -> false 1 != 0  ->true
             return ( sizeof($permissions) != 0);
         });
         

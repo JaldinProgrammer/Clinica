@@ -15,6 +15,7 @@ class CreateInstrumentTypesTable extends Migration
     {
         Schema::create('instrument_types', function (Blueprint $table) {
             $table->id();
+            $table->Integer('status')->default('1');
             $table->string('name');
             $table->timestamps();
         });

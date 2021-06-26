@@ -78,7 +78,6 @@
                         @enderror
                     </div>
                     <br><br>
-                    <div class="form-group row">
                         <label for="section_id" class="col-md-4 col-form-label text-md-right">{{ __('Seccion') }}</label>
                         <div class="col-md-6">
                             <select name="section_id" id="section_id">
@@ -93,17 +92,16 @@
                                 </span>
                             @enderror
                         </div>
-                    </div>
-
                     <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                    
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-info ">
                                 {{ __('Registrar') }}
+                                <i class="fas fa-paw"></i>
                             </button>
                         </div>
                     </div>
+                    
                 </div>
             </form>    
         </div>

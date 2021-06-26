@@ -16,8 +16,8 @@ class CreateAttentionInstrumentsTable extends Migration
         Schema::create('attention_instruments', function (Blueprint $table) {
             $table->id();
             $table->integer('amount')->default('0');
-            $table->foreignId('instrument_type_id')->constrained('instrument_types');
             $table->foreignId('attention_id')->constrained('attentions');
+            $table->foreignId('instrument_id')->constrained('instruments');
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->integer('status')->default('0');
+            $table->integer('status')->default('1');
             $table->string('zoomLink')->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('reservation_id')->constrained('reservations');

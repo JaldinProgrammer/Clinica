@@ -13,7 +13,7 @@ class ServiceSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('sections')->insert([
+        DB::table('services')->insert([
             [
                 'name' => 'Oftalmología',
                 'price' => '0'

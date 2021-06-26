@@ -14,7 +14,8 @@ class InstrumentTypeController extends Controller
      */
     public function index()
     {
-        //
+        $Instrument_types = Instrument_type::all();
+        return view('report.instrument_type',compact('Instrument_types'));
     }
 
     /**
@@ -24,9 +25,28 @@ class InstrumentTypeController extends Controller
      */
     public function create()
     {
-        //
+        $credentials =   Request()->validate([
+            'name' => ['required','string']
+        ]);
+        Instrument_type::create([
+            'name' => request('name'),
+        ]);
+        return redirect()->route('instrument.all');
     }
 
+    public function activate($id){
+        $Instrument_type = Instrument_type::findOrFail($id);
+        $Instrument_type->status = 1;
+        $Instrument_type->update();
+        return redirect()->route('instrument.all');
+    }
+
+    public function desactivate($id){
+        $Instrument_type = Instrument_type::findOrFail($id);
+        $Instrument_type->status = 0;
+        $Instrument_type->update();
+        return redirect()->route('instrument.all');
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -67,9 +87,15 @@ class InstrumentTypeController extends Controller
      * @param  \App\Models\Instrument_type  $instrument_type
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Instrument_type $instrument_type)
+    public function update(Request $request,$id)
     {
-        //
+        $credentials =   Request()->validate([
+            'name' => ['required','string']
+        ]);
+        $instrument_type = Instrument_type::findOrFail($id);
+        $instrument_type->name = Request('name');
+        $instrument_type->update();
+        return redirect()->route('instrument.all');
     }
 
     /**

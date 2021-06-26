@@ -21,7 +21,7 @@ class UserSpecialityController extends Controller
         $User_Specialities = User_Speciality::where('user_id',$id)->get();
         $User_Specialities->load('speciality');
         $User_Specialities->load('user');
-        $specialities = Speciality::whereNotin('id', $using)->get();
+        $specialities = Speciality::where('status',1)->whereNotin('id', $using)->get();
         return view('report.specialities', compact('specialities'),compact('User_Specialities'))->with('usuario',$user);
     }
 

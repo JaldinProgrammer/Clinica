@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'status',
+        'price'
+    ];
+
+    public function reservations(){
+        return $this->hasMany('App\Models\Reservation');
+    }
+
+    public function attentions(){
+        return $this->hasMany('App\Models\Attention');
+    }
 }

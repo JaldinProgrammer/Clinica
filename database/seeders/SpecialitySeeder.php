@@ -59,17 +59,7 @@ class SpecialitySeeder extends Seeder
             ],
             [
                 'name' => 'Toxicología'
-            ],
-            [
-                'name' => 'Alergología'
-            ],
-            [
-                'name' => 'Anestesiología'
-            ],
-            [
-                'name' => 'Angiología'
-            ],
-            
+            ]
         ]);
     }
 }

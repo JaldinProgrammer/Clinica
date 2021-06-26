@@ -27,5 +27,9 @@ class Location extends Model
         return $this->belongsTo('App\Models\Section');
     }
 
+    public function reservations(){
+        return $this->hasMany('App\Models\Reservation');
+    }
+
 
 }

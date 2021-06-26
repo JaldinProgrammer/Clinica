@@ -50,7 +50,11 @@ class LocationController extends Controller
     {
         //dd($request);
         $request->validate([
-            'title' => ['required']
+            'title' => ['required'],
+            'latitude' => ['required'],
+            'longitude' => ['required'],
+            'latitude' => ['required'],
+            'section_id' => ['required'],
         ]);
 
         $user = $request['user_id'];

@@ -14,7 +14,8 @@ class SpecialityController extends Controller
      */
     public function index()
     {
-        //
+        $specialities = Speciality::orderby('id','DESC')->paginate(4);
+        return view('register.speciality', compact('specialities'));
     }
 
     /**
@@ -24,7 +25,27 @@ class SpecialityController extends Controller
      */
     public function create()
     {
-        //
+        $credentials =   Request()->validate([
+            'name' => ['required','string']
+        ]);
+        Speciality::create([
+            'name' => request('name'),
+        ]);
+        return redirect()->route('speciality.all');
+    }
+
+    public function activate($id){
+        $Instrument_type = Speciality::findOrFail($id);
+        $Instrument_type->status = 1;
+        $Instrument_type->update();
+        return redirect()->route('speciality.all');
+    }
+
+    public function desactivate($id){
+        $Instrument_type = Speciality::findOrFail($id);
+        $Instrument_type->status = 0;
+        $Instrument_type->update();
+        return redirect()->route('speciality.all');
     }
 
     /**
@@ -67,9 +88,15 @@ class SpecialityController extends Controller
      * @param  \App\Models\Speciality  $speciality
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Speciality $speciality)
+    public function update(Request $request, $id)
     {
-        //
+        $credentials =   Request()->validate([
+            'name' => ['required','string']
+        ]);
+        $speciality = Speciality::findOrFail($id);
+        $speciality->name = Request('name');
+        $speciality->update();
+        return redirect()->route('speciality.all');
     }
 
     /**
