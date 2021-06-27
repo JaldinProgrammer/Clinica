@@ -18,8 +18,7 @@ class Attention extends Model
         'patient_id',
         'schedule_id',
         'service_id',
-        'date',
-        'ostia'
+        'date'
     ];
     protected $dates = [
         'date'
@@ -38,5 +37,9 @@ class Attention extends Model
 
     public function service(){
         return $this->belongsTo('App\Models\Service');
+    }
+
+    public function attention_instruments(){
+        return $this->hasMany('App\Models\Attention_instrument');
     }
 }

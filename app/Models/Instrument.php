@@ -21,4 +21,8 @@ class Instrument extends Model
         return $this->belongsTo('App\Models\Instrument_type');
     }
 
+    public function attention_instruments(){
+        return $this->hasMany('App\Models\Attention_instrument');
+    }
+
 }

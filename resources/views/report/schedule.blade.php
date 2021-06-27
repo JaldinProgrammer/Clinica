@@ -53,7 +53,7 @@
                         <td>{{$schedule->reservation->date->toFormattedDateString()}}</td>
                         <td><a href="{{$schedule->zoomLink}}" target="_new">{{$schedule->zoomLink}}</a></td>  
                         <td>
-                            @if ($schedule->status != 2)                        
+                            @if ($schedule->status == 1)                        
                                 <div class="accordion" id="accordionExample">
                                     <div class="accordion-item">
                                     <h4 class="accordion-header" id="headingOne">
@@ -87,17 +87,22 @@
                                         </div>
                                     </div>
                                     </div>
-                                </div>
-                            @else
-                            <a href="{{ route('attention.attention', $schedule->attention->id)}}"><button type="button" class="btn btn-success" >Atencion </button></a>      
+                                </div>      
                             @endif
                         </td>
                         <td>
                             {{-- 0 no agendada 1 agendada 2 dada de baja --}}
-                            {{-- @if ($reservation->status != 2)   --}}
-                            <a href="{{ route('attention.create', $schedule->id)}}"><button type="button" class="btn btn-success" >Realizar atencion</button></a>  
+                            @if ($schedule->status == 2)  
+                            {{-- {{ route('attention.attention', $schedule->schedule_id)}} --}}
+                            @foreach ($attentions as $attention)
+                                @if ($schedule->id == $attention->schedule_id )
+                                <a href="{{ route('attention.attention', $attention->id)}}"><button type="button" class="btn btn-success" >Ver atencion</button></a>
+                                @endif
+                            @endforeach
+                              
+                            @else
                             <a href="{{route('schedule.down',$schedule->id)}}"><button type="button" class="btn btn-danger" >Dar de baja</button></a>                 
-                            {{-- @endif --}}
+                            @endif
                             {{-- <a href="{{route('reservation.edit',$reservation->id)}}"><button type="button" class="btn btn-info">Editar</button></a> --}}
                         </td>
                    </tr> 

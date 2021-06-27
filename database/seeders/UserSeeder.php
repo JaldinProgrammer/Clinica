@@ -36,6 +36,27 @@ class UserSeeder extends Seeder
                 'user' => 'vale',
                 'email' => 'vale@gmail.com',
                 'password' => Hash::make('123')
+            ],
+            [
+                
+                'name' => 'patient',
+                'user' => 'patient',
+                'email' => 'patient@gmail.com',
+                'password' => Hash::make('123')
+            ],
+            [
+                
+                'name' => 'nurse',
+                'user' => 'nurse',
+                'email' => 'nurse@gmail.com',
+                'password' => Hash::make('123')
+            ],
+            [
+               
+                'name' => 'admin',
+                'user' => 'admin',
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('123')
             ]
         ]);
     }

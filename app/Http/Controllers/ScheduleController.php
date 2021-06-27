@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attention;
 use App\Models\Reservation;
 use App\Models\Schedule;
 use App\Models\User;
@@ -22,15 +23,17 @@ class ScheduleController extends Controller
     }
 
     public function mySchedule($id){
-        $schedules = Schedule::where('user_id', $id)->where('status',1)->paginate(4);
-        $schedules->load('reservation');
+        $schedules = Schedule::where('user_id', $id)->where('status','!=',0)->paginate(4);
+        
+        $schedules->load('reservation'); 
         foreach($schedules as $schedule){
             $schedule->reservation->load('user');
             $schedule->reservation->load('service');
         }
-        // dd($schedules);
         $user = User::findOrFail($id);
-        return view('report.schedule', compact('schedules'), compact('user'));
+        $attentions = Attention::whereIn('schedule_id',$schedules )->get();
+        //dd($attentions);
+        return view('report.schedule', compact('schedules'), compact('user'))->with('attentions',$attentions );
     }
     /**
      * Show the form for creating a new resource.

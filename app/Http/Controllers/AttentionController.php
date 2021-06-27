@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attention;
+use App\Models\Reservation;
+use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -25,12 +27,12 @@ class AttentionController extends Controller
 
     public function attention($id)
     {
-        $attention = Attention::where('schedule_id', $id)->get();
-        $attention->load('service');
-        $attention->load('nurse');
-        $attention->load('patient');
-        $attention->load('schedule');
-        return view('report.attentionRes', compact('attention'));
+        $attentions = Attention::where('schedule_id', $id)->get();
+        $attentions->load('service');
+        $attentions->load('nurse');
+        $attentions->load('patient');
+        $attentions->load('schedule');
+        return view('report.attentionRes', compact('attentions'));
     }
 
     /**
@@ -50,7 +52,16 @@ class AttentionController extends Controller
             'checkIn' => request('checkIn'),
             'date' => Carbon::now('America/Caracas')->today()
         ]);
-        return redirect()->route('attention.attention',request('schedule_id') ); 
+
+        if(request('schedule_id') != null){
+            $schedule = Schedule::findOrFail(request('schedule_id'));
+           // $reservation = Reservation::findOrFail(Schedule::select('reservation_id')->where('status',1)->get());
+            $schedule->status = 2;
+            $schedule->update();
+
+
+        }
+        return redirect()->route('attention.attention',$schedule->id ); 
     }
 
     public function update(Request $request, $id)

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttentionController;
+use App\Http\Controllers\AttentionInstrumentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Auth\LoginController;
@@ -120,3 +121,6 @@ Route::get('attention/attention/{id}',[AttentionController::class, 'attention'])
 Route::post('attention/create',[AttentionController::class, 'create'])->name('attention.create')->middleware(['auth']);
 Route::post('attention/update/{id}',[AttentionController::class, 'update'])->name('attention.update')->middleware(['auth']);
 
+Route::get('attention/instruments/{id}',[AttentionInstrumentController::class, 'index'])->name('attention_instrument.index')->middleware(['auth']);
+Route::post('attention/instruments/create',[AttentionInstrumentController::class, 'create'])->name('attention_instrument.create')->middleware(['auth']);
+Route::post('attention/instruments/update/{id}',[AttentionInstrumentController::class, 'update'])->name('attention_instrument.update')->middleware(['auth']);
