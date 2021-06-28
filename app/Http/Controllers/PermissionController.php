@@ -6,7 +6,9 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
+use App\Models\Binnacle;
+use Illuminate\Support\Facades\Auth;
 class PermissionController extends Controller
 {
     /**
@@ -56,6 +58,12 @@ class PermissionController extends Controller
         $permission->load('user');
         $permission->status = 1;
         $permission->update();
+        Binnacle::create([
+            'entity' => $permission->user->user,
+            'action' => "activo",
+            'table' => "permisos",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('user.permissions', $permission->user->id);
     }
 
@@ -64,6 +72,12 @@ class PermissionController extends Controller
         $permission->load('user');
         $permission->status = 0;
         $permission->update();
+        Binnacle::create([
+            'entity' => $permission->user->user,
+            'action' => "desactivo",
+            'table' => "permisos",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('user.permissions', $permission->user->id);
     }
 

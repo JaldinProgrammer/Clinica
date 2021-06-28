@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
 
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
@@ -21,7 +13,11 @@
     <br>
     <div class="container">
         <br>
-        <h1>{{"calendario de ". $user->name}}</h1>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h2>{{"Calendario de ". $user->name}}</h2></li>
+        </ul>
+        <br>
+
         <table class="table table-striped">
             <thead>
                   <th>Estado</th>
@@ -66,7 +62,7 @@
                                             <form action={{ route('attention.create') }} method="POST">
                                                 @csrf
                                                 <div class="form-group row">
-                                                    <label for="checkIn" class="col-md-4 col-form-label text-md-right">{{ __('Check-In') }}</label>
+                                                    <label for="checkIn" class="col-md-4 col-form-label text-md-right">{{ __('Entrada') }}</label>
                                 
                                                     <div class="col-md-6">
                                                         <input id="checkIn" type="time" class="form-control @error('checkIn') is-invalid @enderror" name="checkIn" value="{{ old('checkIn') }}" >                   
@@ -82,7 +78,7 @@
                                                 <input type="hidden" name="service_id" value="{{$schedule->reservation->service->id}}">
                                                 <input type="hidden" name="nurse_id" value="{{$schedule->user_id}}">
                                                 <input type="hidden" name="patient_id" value="{{$schedule->reservation->user->id}}">
-                                                <button type="submit" class="btn btn-info">Actualizar</button>
+                                                <button type="submit" class="btn btn-info">registrar</button>
                                             </form>
                                         </div>
                                     </div>
@@ -111,6 +107,4 @@
         </table>
         <div class="table table-striped">{{$schedules->links()}}</div>
     </div>
-
-</body>
-</html>
+@endsection

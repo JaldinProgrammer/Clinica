@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Instrument_type;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Binnacle;
 class InstrumentTypeController extends Controller
 {
     /**
@@ -14,7 +16,7 @@ class InstrumentTypeController extends Controller
      */
     public function index()
     {
-        $Instrument_types = Instrument_type::all();
+        $Instrument_types = Instrument_type::orderby('id','desc')->paginate(5);
         return view('report.instrument_type',compact('Instrument_types'));
     }
 
@@ -31,6 +33,12 @@ class InstrumentTypeController extends Controller
         Instrument_type::create([
             'name' => request('name'),
         ]);
+        Binnacle::create([
+            'entity' => "El tipo de insumo : ".  Request('name'),
+            'action' => "inserto",
+            'table' => "Tipo de insumo",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('instrument.all');
     }
 
@@ -38,6 +46,12 @@ class InstrumentTypeController extends Controller
         $Instrument_type = Instrument_type::findOrFail($id);
         $Instrument_type->status = 1;
         $Instrument_type->update();
+        Binnacle::create([
+            'entity' => "El tipo de insumo : ". $Instrument_type->name,
+            'action' => "se activo",
+            'table' => "Tipo de insumo",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('instrument.all');
     }
 
@@ -45,6 +59,12 @@ class InstrumentTypeController extends Controller
         $Instrument_type = Instrument_type::findOrFail($id);
         $Instrument_type->status = 0;
         $Instrument_type->update();
+        Binnacle::create([
+            'entity' => "El tipo de insumo : ". $Instrument_type->name,
+            'action' => "se desactivo",
+            'table' => "Tipo de insumo",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('instrument.all');
     }
     /**
@@ -95,6 +115,12 @@ class InstrumentTypeController extends Controller
         $instrument_type = Instrument_type::findOrFail($id);
         $instrument_type->name = Request('name');
         $instrument_type->update();
+        Binnacle::create([
+            'entity' => "El tipo de insumo : ". $instrument_type->name,
+            'action' => "se actualizo",
+            'table' => "Tipo de insumo",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('instrument.all');
     }
 

@@ -7,11 +7,12 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Carbon\Carbon;
+use App\Models\Binnacle;
 class UserController extends Controller
 {
     public function index(){
-        $users = User::all();
+        $users = User::orderby('id','desc')->paginate(5);
         return view('report.users', compact('users'));
     }
 
@@ -27,19 +28,19 @@ class UserController extends Controller
 
     public function showAdmins(){
         $permissions = Permission::select('user_id')->where('role_id',2)->where('status',1)->get();
-        $users = User::whereIn('id', $permissions )->get();
+        $users = User::whereIn('id', $permissions )->paginate(5);
         return view('report.Admins', compact('users'));
     }
 
     public function showNurses(){
         $permissions = Permission::select('user_id')->where('role_id',3)->where('status',1)->get();
-        $users = User::whereIn('id', $permissions )->get();
+        $users = User::whereIn('id', $permissions )->paginate(5);
         return view('report.Nurses', compact('users'));
     }
 
     public function showPatients(){
         $permissions = Permission::select('user_id')->where('role_id',1)->where('status',1)->get();
-        $users = User::whereIn('id', $permissions )->get();
+        $users = User::whereIn('id', $permissions )->paginate(5);
         return view('report.Patients', compact('users'));
     }
 
@@ -63,6 +64,12 @@ class UserController extends Controller
         $user->user = $request->get('user');
         $user->email = $request->get('email');
         $user->update();
+        Binnacle::create([
+            'entity' => $request->get('name'),
+            'action' => "se actualizo",
+            'table' => "Usuarios",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('user.all');
     }
 

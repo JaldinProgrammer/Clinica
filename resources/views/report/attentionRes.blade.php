@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
 
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
@@ -30,12 +22,16 @@
               <p class="card-text">
                 @foreach ($attentions as $attention)
                 <ul class="list-group">
-                    <li class="list-group-item">{{"Hora de llegada: ". $attention->checkIn}}</li>
-                    <li class="list-group-item">{{"Hora de finalizacion: ". $attention->checkOut}}</li>
+                    <li class="list-group-item">{{($attention->checkIn != null) ? "Hora de llegada: ". $attention->checkIn->toTimeString(): "-"}}</li>
+                    <li class="list-group-item">{{($attention->checkOut != null)? "Hora de finalizacion: ". $attention->checkOut->toTimeString(): "-"}}</li>
                     <li class="list-group-item">{{"Fecha: ". $attention->date->toFormattedDateString()}}</li>
-                    <li class="list-group-item">{{"Precio total: ". $attention->totalPrice}}</li>
+                    <li class="list-group-item">{{"Precio total: ". $attention->totalPrice . " bs."}}</li>
                     <li class="list-group-item">{{"Personal medico: ". $attention->nurse->name}}</li>
                     <li class="list-group-item">{{"Paciente: ". $attention->patient->name}}</li>
+                    @if ($attention->checkIn != null && $attention->checkOut!=null)
+                    
+                    <li class="list-group-item"><b>{{"Duracion de la atencion: ". $attention->checkIn->diffInMinutes($attention->checkOut, true). " min."}}</b></li>
+                    @endif
                 </ul>
               </p>
               <br>
@@ -82,5 +78,4 @@
             @endforeach
         </div>
     </div>
-</body>
-</html>
+@endsection

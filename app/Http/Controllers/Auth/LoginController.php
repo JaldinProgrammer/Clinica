@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\Binnacle;
+use Carbon\Carbon;
 class LoginController extends Controller
 {
     public function login()
@@ -20,6 +21,12 @@ class LoginController extends Controller
         $remember = request()->filled('remember');
          if(Auth::attempt($credentials, $remember)){
             request()->session()->regenerate();
+            Binnacle::create([
+                'entity' => Request('user'),
+                'action' => "Se loggeo en",
+                'table' => "El sistema",
+                'user_id'=> Auth::user()->id
+            ]); 
             return redirect()->route('user.perfil');
          }
          throw ValidationException::withMessages([
@@ -54,6 +61,12 @@ class LoginController extends Controller
             'user' => request('user'),
             'email' => request('email'),   
             'password' => Hash::make(request('password')),
+        ]);
+        Binnacle::create([
+            'entity' => Request('user'),
+            'action' => "inserto",
+            'table' => "Usuarios",
+            'user_id'=> Auth::user()->id
         ]);
         return redirect()->route('user.all');
     }

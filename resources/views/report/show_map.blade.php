@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
+    <link rel="shortcut icon" type="image/png" href=" {{asset('./Icons/hospital.png')}}">
+    <title>Laboratorio</title>
 </head>
 <body>
     @include('layouts.nav')
        <div class="container">
-           <h2 class="row">{{"Titulo : ". $location->title}}</h2>
-           <h2 class="row">{{"Detalles : ". $location->details}}</h2>
-           
+        <br>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h2>{{"Titulo : ". $location->title}}</h2></li>
+            <li class="list-group-item"><h2>{{"Detalles : ". $location->details}}</h2></li>
+        </ul>
+        <br>
            <input type="hidden" id="latitude" value={{$location->latitude}}>
            <input type="hidden" id="longitude" value={{$location->longitude}}>
        </div>

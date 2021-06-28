@@ -5,6 +5,7 @@ use App\Http\Controllers\AttentionInstrumentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BinnacleController;
 use App\Http\Controllers\InstrumentController;
 use App\Http\Controllers\InstrumentTypeController;
 use App\Http\Controllers\LocationController;
@@ -43,6 +44,9 @@ Route::get('user/register-location',[LocationController::class, 'create'])->name
 Route::post('user/storage-location',[LocationController::class, 'store'])->name('user.locations.create');
 Route::get('user/show-map/{id}',[LocationController::class, 'showMap'])->name('user.locations.showMap');
 Route::get('user/perfil/locations/{id}',[LocationController::class, 'userLocations'])->name('user.perfil.locations');
+Route::get('locations/all',[LocationController::class, 'locationsAll'])->name('locationsAll');
+
+
 
 Route::get('user/register',[UserController::class, 'create'])->name('user.register');
 Route::get('user/all',[UserController::class, 'index'])->name('user.all');
@@ -97,6 +101,7 @@ Route::post('service/create',[ServiceController::class, 'create'])->name('servic
 Route::get('service/activate/{id}',[ServiceController::class, 'activate'])->name('service.activate')->middleware(['auth']);
 Route::get('service/desactivate/{id}',[ServiceController::class, 'desactivate'])->name('service.desactivate')->middleware(['auth']);
 Route::post('service/update/{id}',[ServiceController::class, 'update'])->name('service.update')->middleware(['auth']);
+Route::get('service/showAvailable',[ServiceController::class, 'showAvailable'])->name('service.showAvailable');
 
 Route::get('reservation/all',[ReservationController::class, 'index'])->name('reservation.all')->middleware(['auth']);
 Route::get('reservation/myReservations/{id}',[ReservationController::class, 'myReservations'])->name('reservation.myReservations')->middleware(['auth']);
@@ -120,7 +125,12 @@ Route::get('attention/all',[AttentionController::class, 'index'])->name('attenti
 Route::get('attention/attention/{id}',[AttentionController::class, 'attention'])->name('attention.attention')->middleware(['auth']);
 Route::post('attention/create',[AttentionController::class, 'create'])->name('attention.create')->middleware(['auth']);
 Route::post('attention/update/{id}',[AttentionController::class, 'update'])->name('attention.update')->middleware(['auth']);
+Route::get('attention/myAttentions/{id}',[AttentionController::class, 'myAttentions'])->name('attention.myAttentions')->middleware(['auth']);
 
 Route::get('attention/instruments/{id}',[AttentionInstrumentController::class, 'index'])->name('attention_instrument.index')->middleware(['auth']);
 Route::post('attention/instruments/create',[AttentionInstrumentController::class, 'create'])->name('attention_instrument.create')->middleware(['auth']);
 Route::post('attention/instruments/update/{id}',[AttentionInstrumentController::class, 'update'])->name('attention_instrument.update')->middleware(['auth']);
+
+
+
+Route::get('binnacle/show',[BinnacleController::class, 'index'])->name('binnacle.index')->middleware(['auth']);

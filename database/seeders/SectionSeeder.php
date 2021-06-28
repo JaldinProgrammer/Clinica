@@ -16,23 +16,23 @@ class SectionSeeder extends Seeder
         DB::table('sections')->insert([
             [
                 'name' => 'de centro a primer anillo',
-                'price' => '0'
-            ],
-            [
-                'name' => 'de primer anillo a tercer anillo',
                 'price' => '5'
             ],
             [
-                'name' => 'de tecer anillo a cuarto anillo',
+                'name' => 'de primer anillo a tercer anillo',
                 'price' => '10'
             ],
             [
+                'name' => 'de tecer anillo a cuarto anillo',
+                'price' => '12'
+            ],
+            [
                 'name' => 'de cuarto anillo a septimo anillo',
-                'price' => '20'
+                'price' => '25'
             ],
             [
                 'name' => 'de septimo anillo en adelante',
-                'price' => '30'
+                'price' => '37'
             ],
         ]);
     }

@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
 
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
@@ -21,6 +13,10 @@
     <br>
 
     <div class="container">
+        <br>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h2>Insumos</h2></li>
+        </ul>
         <br>
         <form action={{ route('instruments.createOne') }} method="POST">
             @csrf
@@ -54,8 +50,6 @@
             </div>
             <button type="submit" class="btn btn-primary">Crear</button>
         </form>
-        <br>
-        <h1>Insumos</h1>
         <table class="table table-striped">
             <thead>
                   <th>Insumo</th>
@@ -86,6 +80,4 @@
         </table>
         <div class="table table-striped">{{$instruments->links()}}</div>
     </div>
-    
-</body>
-</html>
+@endsection

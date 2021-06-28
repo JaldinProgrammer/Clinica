@@ -21,7 +21,9 @@ class Attention extends Model
         'date'
     ];
     protected $dates = [
-        'date'
+        'date',
+        'checkIn',
+        'checkOut',
     ];
     public function schedule(){
         return $this->belongsTo('App\Models\Schedule');

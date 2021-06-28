@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
 
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
@@ -21,12 +13,21 @@
     <br>
     
     <div class="container">
-        <br>
+      <br>
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item"><h2>Servicios</h2></li>
+      </ul>
+      <br>
         <form action={{ route('service.create') }} method="POST">
             @csrf
             <div class="mb-3">
               <label for="name" class="form-label">Servicio</label>
               <input type="text" name="name" class="form-control" id="name" >
+              {{-- <div id="name" class="form-text">We'll never share your email with anyone else.</div> --}}
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Descripcion</label>
+              <input type="text" name="description" class="form-control" id="description" >
               {{-- <div id="name" class="form-text">We'll never share your email with anyone else.</div> --}}
             </div>
             <div class="mb-3">
@@ -36,8 +37,7 @@
               </div>
             <button type="submit" class="btn btn-primary">Crear</button>
         </form>
-        <br>
-        <h1>Servicios</h1>       
+        <br>   
         <table class="table table-striped">
             <thead>
                   <th>Servicio </th>
@@ -73,9 +73,11 @@
                                               {{-- <label for="name" class="form-label">Nuevo tipo de instrumento</label> --}}
                                               <input value="{{$service->name}}" placeholder="servicio" type="text" name="name" class="form-control" id="name" aria-describedby="name">
                                               <input value="{{$service->price}}" placeholder="precio" type="text" name="price" class="form-control" id="price" aria-describedby="price">
+                                              <input value="{{$service->description}}" placeholder="description" type="text" name="description" class="form-control" id="price" aria-describedby="price">
+
                                               {{-- <div id="name" class="form-text">We'll never share your email with anyone else.</div> --}}
                                             </div>
-                                            <button type="submit" class="btn btn-info">Actualizar</button>
+                                            <button type="submit" class="btn btn-info">Actualizar<i class="fas fa-heartbeat"></i></button>
                                         </form>
                                     </div>
                                   </div>
@@ -88,6 +90,4 @@
         </table>
         <div class="table table-striped">{{$services->links()}}</div>
     </div>
-
-</body>
-</html>
+@endsection

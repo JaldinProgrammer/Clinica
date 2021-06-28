@@ -8,6 +8,8 @@ use App\Models\Schedule;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Models\Binnacle;
 
 class ScheduleController extends Controller
 {
@@ -56,6 +58,12 @@ class ScheduleController extends Controller
         $reservation = Reservation::findOrFail(request('reservation_id'));
         $reservation->status = 1; // turning On reservation reserved
         $reservation->update();
+        Binnacle::create([
+            'entity' => $reservation->details,
+            'action' => "inserto",
+            'table' => "agenda",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('schedule.mySchedule', Auth::user()->id);
     }
 
@@ -66,6 +74,12 @@ class ScheduleController extends Controller
         $reservation = Reservation::findOrFail($schedule->reservation_id);
         $reservation->status = 0; // turning off reserved pass to free
         $reservation->update();
+        Binnacle::create([
+            'entity' => $reservation->details,
+            'action' => "dio de baja",
+            'table' => "agenda",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('schedule.mySchedule', Auth::user()->id);
     }
 

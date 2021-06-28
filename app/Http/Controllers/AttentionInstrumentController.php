@@ -6,7 +6,9 @@ use App\Models\Attention;
 use App\Models\Attention_instrument;
 use App\Models\Instrument;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
+use App\Models\Binnacle;
+use Illuminate\Support\Facades\Auth;
 class AttentionInstrumentController extends Controller
 {
     /**
@@ -31,26 +33,46 @@ class AttentionInstrumentController extends Controller
      */
     public function create()
     {
-        Attention_instrument::create([
+        $Attention_instrument = Attention_instrument::create([
             'attention_id' => request('attention_id'),
             'instrument_id' => request('instrument_id'),
             'amount' => request('amount'),
         ]);
+        
         $instrument = Instrument::findOrFail(request('instrument_id'));
+        $attention = Attention::findOrFail(request('attention_id'));
+        $attention->totalPrice = $attention->totalPrice + $instrument->price * request('amount');
+        $attention->update();
         $instrument->stock = $instrument->stock - request('amount');
         $instrument->update();
+
+        Binnacle::create([
+            'entity' => "Los insumos de atencion: ".  $Attention_instrument->id,
+            'action' => "inserto",
+            'table' => "Insumos de atencion",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('attention_instrument.index', request('attention_id'));
     }
 
     public function update($id)
     {
         $attention_instruments = Attention_instrument::findOrFail($id);
+        $attention = Attention::findOrFail($attention_instruments->attention_id);
         $instrument = Instrument::findOrFail($attention_instruments->instrument_id);
+        $attention->totalPrice = $attention->totalPrice - ($instrument->price * $attention_instruments->amount);
         $instrument->stock = $instrument->stock + $attention_instruments->amount;
         $attention_instruments->amount = request('amount');
         $instrument->stock = $instrument->stock - request('amount');
-        $instrument->update();
+        $instrument->update(); 
         $attention_instruments->update();
+        $attention->totalPrice = $attention->totalPrice + $instrument->price * $attention_instruments->amount;
+        Binnacle::create([
+            'entity' => "Los insumos de atencion: ".  $attention_instruments->id,
+            'action' => "se actualizo",
+            'table' => "Insumos de atencion",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('attention_instrument.index',$attention_instruments->attention_id);
     }
 

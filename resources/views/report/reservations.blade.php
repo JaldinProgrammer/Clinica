@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
 
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
@@ -21,24 +13,23 @@
     <br>
     <div class="container">
         <br>
-        <a href= {{route('reservation.register', Auth::user()->id) }} ><button type="button" class="btn btn-success btn-lg btn-block">Nuevo reservacion</button></a>
-        <h1>Reservas</h1>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h2>Reservas</h2></li>
+            <li class="list-group-item"><a href= {{route('reservation.register', Auth::user()->id) }} ><button type="button" class="btn btn-success btn-lg btn-block">Nuevo reservacion</button></a></li>
+        </ul>
+        <br>
         <table class="table table-striped">
             <thead>
                   <th>Fecha</th>
                   <th>Hora</th>
                   <th>Detalle</th>                
-                  <th>Virtual link</th>
-                  <th>Pago virtual</th>
             </thead>
             <tbody>
                 @foreach ($reservations as $reservation)
                    <tr>
                         <td>{{$reservation->date}}</td>
                         <td>{{$reservation->time}}</td>
-                        <td>{{$reservation->details}}</td>                         
-                        <td>{{$reservation->virtualMeeting}}</td>  
-                        <td>{{$reservation->virtualPayment}}</td>           
+                        <td>{{$reservation->details}}</td>                           
                         <td>
                             {{-- 0 no agendada 1 agendada 2 dada de baja --}}
                             @if ($reservation->status == 0)  
@@ -52,6 +43,4 @@
         </table>
         <div class="table table-striped">{{$reservations->links()}}</div>
     </div>
-
-</body>
-</html>
+@endsection

@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
 
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
@@ -22,7 +14,10 @@
 
     <div class="container">
         <br>
-        <h1>Actualizar insumo</h1>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h2>Actualizar insumo</h2></li>
+        </ul>
+        <br>
         <form action={{ route('instruments.updateOne',$instrument->id) }} method="POST">
             @csrf
             <div class="mb-3">
@@ -57,6 +52,4 @@
         </form>
         <br>    
     </div>
-    
-</body>
-</html>
+@endsection

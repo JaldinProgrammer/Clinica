@@ -6,7 +6,9 @@ use App\Models\Speciality;
 use App\Models\User_Speciality;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
+use App\Models\Binnacle;
+use Illuminate\Support\Facades\Auth;
 class UserSpecialityController extends Controller
 {
     /**
@@ -22,14 +24,22 @@ class UserSpecialityController extends Controller
         $User_Specialities->load('speciality');
         $User_Specialities->load('user');
         $specialities = Speciality::where('status',1)->whereNotin('id', $using)->get();
+        
         return view('report.specialities', compact('specialities'),compact('User_Specialities'))->with('usuario',$user);
     }
 
     public function setSpeciality($id,$speciality){
-        User_Speciality::create([
+        $r = User_Speciality::create([
             'user_id' => $id,
             'speciality_id' => $speciality
         ]);     
+        $r->load('user');
+        Binnacle::create([
+            'entity' => $r->user->name,
+            'action' => "inserto",
+            'table' => "Especialidad usuarios",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('user.specialities', $id);
     }
 
@@ -38,6 +48,12 @@ class UserSpecialityController extends Controller
         $user_Speciality->load('user');
         $user_Speciality->status = 1;
         $user_Speciality->update();
+        Binnacle::create([
+            'entity' => $user_Speciality->user->name,
+            'action' => "activo",
+            'table' => "Especialidad usuarios",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('user.specialities', $user_Speciality->user->id);
     }
 
@@ -46,6 +62,12 @@ class UserSpecialityController extends Controller
         $user_Speciality->load('user');
         $user_Speciality->status = 0;
         $user_Speciality->update();
+        Binnacle::create([
+            'entity' => $user_Speciality->user->name,
+            'action' => "desactivo",
+            'table' => "Especialidad usuarios",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('user.specialities', $user_Speciality->user->id);
     }
     /**

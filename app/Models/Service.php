@@ -11,7 +11,8 @@ class Service extends Model
     protected $fillable = [
         'name',
         'status',
-        'price'
+        'price',
+        'description'
     ];
 
     public function reservations(){

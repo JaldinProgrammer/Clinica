@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Binnacle;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 class BinnacleController extends Controller
 {
     /**
@@ -12,9 +13,10 @@ class BinnacleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(){
+        $binnacles = Binnacle::orderby('id','desc')->paginate(16);
+        $binnacles->load('user');
+        return view('report.binnacle', compact('binnacles'));
     }
 
     /**

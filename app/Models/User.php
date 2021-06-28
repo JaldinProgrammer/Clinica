@@ -63,4 +63,8 @@ class User extends Authenticatable
     public function attentions(){
         return $this->hasMany('App\Models\Attention');
     }
+
+    public function binnacles(){
+        return $this->hasMany('App\Models\Binnacle');
+    }
 }

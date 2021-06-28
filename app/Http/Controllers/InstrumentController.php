@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Instrument;
 use App\Models\Instrument_type;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
+use App\Models\Binnacle;
+use Illuminate\Support\Facades\Auth;
 class InstrumentController extends Controller
 {
     /**
@@ -40,6 +42,12 @@ class InstrumentController extends Controller
             'stock' => request('stock'),
             'instrument_type_id' => request('instrument_type_id')
         ]);
+        Binnacle::create([
+            'entity' => "El insumo : ".  request('name'),
+            'action' => "inserto",
+            'table' => "Insumos",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('instruments.eachOne');
     }
 
@@ -47,13 +55,25 @@ class InstrumentController extends Controller
         $instrument = Instrument::findOrFail($id);
         $instrument->status = 1;
         $instrument->update();
-        return redirect()->route('instrument.all');
+        Binnacle::create([
+            'entity' => "El insumo : ".  $instrument->name,
+            'action' => "se activo",
+            'table' => "Insumos",
+            'user_id'=> Auth::user()->id
+        ]);
+        return redirect()->route('instruments.eachOne');
     }
 
     public function desactivate($id){
         $instrument = Instrument::findOrFail($id);
         $instrument->status = 0;
         $instrument->update();
+        Binnacle::create([
+            'entity' => "El insumo : ".  $instrument->name,
+            'action' => "se desactivo",
+            'table' => "Insumos",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('instruments.eachOne');
     }
 
@@ -78,6 +98,12 @@ class InstrumentController extends Controller
         $instrument->stock = Request('stock');
         $instrument->instrument_type_id = Request('instrument_type_id');
         $instrument->update();
+        Binnacle::create([
+            'entity' => "El insumo : ".  Request('name'),
+            'action' => "se actualizo",
+            'table' => "Insumos",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('instruments.eachOne');
     }
     /**

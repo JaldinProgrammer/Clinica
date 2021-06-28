@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Section;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
+use App\Models\Binnacle;
+use Illuminate\Support\Facades\Auth;
 class SectionController extends Controller
 {
     /**
@@ -14,7 +16,7 @@ class SectionController extends Controller
      */
     public function index()
     {
-        $sections = Section::all();
+        $sections = Section::paginate(6);
         return view('report.sections',compact('sections'));
     }
 
@@ -38,6 +40,12 @@ class SectionController extends Controller
             'price' => request('price'),
             'name' => request('name'),
         ]);
+        Binnacle::create([
+            'entity' => request('name'),
+            'action' => "inserto",
+            'table' => "seccion",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('sections.all');
     }
 
@@ -55,6 +63,12 @@ class SectionController extends Controller
         $section->price = Request('price');
         $section->name = Request('name');
         $section->update();
+        Binnacle::create([
+            'entity' => request('name'),
+            'action' => "actualizo",
+            'table' => "seccion",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('sections.all');
     }
 
@@ -62,6 +76,12 @@ class SectionController extends Controller
         $section = Section::findOrFail($id);
         $section->status = 1;
         $section->update();
+        Binnacle::create([
+            'entity' => $section->name,
+            'action' => "activo",
+            'table' => "seccion",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('sections.all');
     }
 
@@ -69,6 +89,12 @@ class SectionController extends Controller
         $section = Section::findOrFail($id);
         $section->status = 0;
         $section->update();
+        Binnacle::create([
+            'entity' => $section->name,
+            'action' => "desactivo",
+            'table' => "seccion",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('sections.all');
     }
 

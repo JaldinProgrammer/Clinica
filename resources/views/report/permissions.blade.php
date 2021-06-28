@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
 
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
@@ -22,22 +14,27 @@
 
     <div class="container">
         <br>
-        {{-- @php
-            dd($usuario);
-        @endphp --}}
-        @foreach ($roles as $role)
-            @if ($role->id == 1)
-            <a href= "{{route('user.makePatient', $usuario->id)}}" ><button type="button" class="btn btn-success btn-lg btn-block">hacer paciente</button></a>
-            @endif
-            @if ($role->id == 2)
-            <a href= "{{route('user.makeAdmin', $usuario->id)}}" ><button type="button" class="btn btn-success btn-lg btn-block">hacer administrador</button></a>
-            @endif
-            @if ($role->id == 3)
-            <a href= "{{route('user.makeNurse', $usuario->id)}}" ><button type="button" class="btn btn-success btn-lg btn-block">hacer personal medico</button></a>
-            @endif
-        @endforeach
-        <h1>permisos</h1>
-
+        <ul class="list-group list-group-flush">
+                <li class="list-group-item"><h2>permisos</h2></li>
+            @foreach ($roles as $role)
+                @if ($role->id == 1)
+                <li class="list-group-item"><a href= "{{route('user.makePatient', $usuario->id)}}" ><button type="button" class="btn btn-success btn-lg btn-block">
+                    <img src="{{asset('./Icons/patient.png')}}" alt="pata" width="25" height="25">
+                    hacer paciente</button></a></li>
+                @endif
+                @if ($role->id == 2)
+                <li class="list-group-item"><a href= "{{route('user.makeAdmin', $usuario->id)}}" ><button type="button" class="btn btn-success btn-lg btn-block">
+                    <img src="{{asset('./Icons/admin.png')}}" alt="pata" width="25" height="25">
+                    hacer administrador</button></a></li>
+                @endif
+                @if ($role->id == 3)
+                <li class="list-group-item"><a href= "{{route('user.makeNurse', $usuario->id)}}" ><button type="button" class="btn btn-success btn-lg btn-block">
+                    <img src="{{asset('./Icons/doctor.png')}}" alt="pata" width="25" height="25">
+                    hacer personal medico</button></a></li>
+                @endif
+            @endforeach
+        </ul>  
+        <br>      
         <table class="table table-striped">
             <thead>
                   <th>Permiso </th>
@@ -62,8 +59,5 @@
                 @endforeach
             </tbody>
         </table>
-        {{-- <div class="table table-striped">{{$species->links()}}</div> --}}
     </div>
-
-</body>
-</html>
+@endsection

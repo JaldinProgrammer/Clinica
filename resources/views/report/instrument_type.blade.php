@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
 
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
@@ -21,19 +13,22 @@
     <br>
     
     <div class="container">
+        
+        <br>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h2>Tipos de insumo</h2></li>
+        </ul>
         <br>
         <form action={{ route('instrument.create') }} method="POST">
             @csrf
             <div class="mb-3">
-              <label for="name" class="form-label">Nuevo tipo de instrumento</label>
+              <label for="name" class="form-label">Nuevo tipo de insumo</label>
               <input type="text" name="name" class="form-control" id="name" aria-describedby="emailHelp">
               {{-- <div id="name" class="form-text">We'll never share your email with anyone else.</div> --}}
             </div>
             <button type="submit" class="btn btn-primary">Crear</button>
         </form>
         <br>
-        <h1>Tipos de insumo</h1>
-        
         <table class="table table-striped">
             <thead>
                   <th>Tipo de insumo </th>
@@ -80,7 +75,6 @@
                 @endforeach
             </tbody>
         </table>
-        {{-- <div class="table table-striped">{{$species->links()}}</div> --}}
+        <div class="table table-striped">{{$Instrument_types->links()}}</div>
     </div>
-</body>
-</html>
+@endsection

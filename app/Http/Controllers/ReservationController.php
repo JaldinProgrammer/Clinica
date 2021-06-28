@@ -8,7 +8,8 @@ use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use App\Models\Binnacle;
+use Illuminate\Support\Facades\Auth;
 class ReservationController extends Controller
 {
     /**
@@ -28,6 +29,12 @@ class ReservationController extends Controller
         $reservation = Reservation::findOrFail($id);
         $reservation->status = 2;
         $reservation->update();
+        Binnacle::create([
+            'entity' => $reservation->details,
+            'action' => "borro",
+            'table' => "reservaciones",
+            'user_id'=> Auth::user()->id
+        ]);
         return $this->myReservations($reservation->user_id);
     }    
 
@@ -101,7 +108,12 @@ class ReservationController extends Controller
             'user_id' => request('user_id'),
             'service_id' => request('service_id')
         ]);
-        
+        Binnacle::create([
+            'entity' => request('details'),
+            'action' => "inserto",
+            'table' => "reservaciones",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('reservation.myReservations', request('user_id'));
     }
 

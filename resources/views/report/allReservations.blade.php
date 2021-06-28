@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
 
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
@@ -22,7 +14,10 @@
      {{-- BUSCADOR --}}     
     <br>
     <div class="container">
-        <h1>Reservaciones</h1>
+        <br>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h2>Reservaciones</h2></li>      
+        </ul>
         <br>
         <ul class="list-group">
             <li class="list-group-item">
@@ -32,7 +27,7 @@
             </form>
             </li>
             <li class="list-group-item"><a href="{{route('reservation.pastReservations')}}"><button type="button" class="btn btn-danger" >reservaciones pasadas</button></a> </li>
-            <li class="list-group-item"><a href="{{route('reservation.nowReservations')}}"><button type="button" class="btn btn-danger" >reservaciones actuales</button></a> </li>
+            <li class="list-group-item"><a href="{{route('reservation.nowReservations')}}"><button type="button" class="btn btn-danger" >reservaciones de hoy</button></a> </li>
             <li class="list-group-item"><a href="{{route('reservation.futureReservations')}}"><button type="button" class="btn btn-danger" >reservaciones futuras</button></a> </li>
         </ul>
     </div>
@@ -112,5 +107,4 @@
         </table>
         <div class="table table-striped">{{$reservations->links()}}</div>
     </div>
-</body>
-</html>
+@endsection

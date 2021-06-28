@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>CVS</title>
-</head>
-<body>
-  @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
   @if ($errors->count() > 0)
   <div class="alert alert-danger">
       <ul>
@@ -44,9 +36,7 @@
               <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember">
               <label class="form-check-label" for="exampleCheck1">Recuerda mi sesion</label>
           </div>
-          <button type="submit" class="btn btn-primary">send</button>
+          <button type="submit" class="btn btn-info"><i class="fas fa-heartbeat"></i></button>
       </form>
     </div>
-
-</body>
-</html>
+@endsection

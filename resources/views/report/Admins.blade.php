@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
 
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
@@ -21,8 +13,10 @@
     <br>
     <div class="container">
         <br>
-        <a href= {{route('user.register') }} ><button type="button" class="btn btn-success btn-lg btn-block">Nuevo usuario</button></a>
-        <h1>usuarios</h1>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h2>usuarios</h2></li>
+            <li class="list-group-item"><a href= {{route('user.register') }} ><button type="button" class="btn btn-success btn-lg btn-block">Nuevo usuario</button></a></li>
+        </ul>
         <table class="table table-striped">
             <thead>
                   <th>Nombre</th>
@@ -39,15 +33,11 @@
                         <td>{{$user->email}}</td>             
                         <td>
                             <a href="{{route('user.permissions',$user->id)}}"><button type="button" class="btn btn-warning">Roles</button></a>
-                            <a href="#"><button type="button" class="btn btn-danger" onclick="return confirm('Seguro que quiere borrar esta especie?')">Borrar</button></a>                 
-
                         </td>
                    </tr> 
                 @endforeach
             </tbody>
         </table>
-        {{-- <div class="table table-striped">{{$species->links()}}</div> --}}
+        <div class="table table-striped">{{$users->links()}}</div>
     </div>
-
-</body>
-</html>
+@endsection

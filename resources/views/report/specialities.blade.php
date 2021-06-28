@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
 
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
@@ -22,11 +14,10 @@
 
     <div class="container">
         <br>
-        {{-- @php
-            dd($usuario);
-        @endphp --}}
-        
-        <h1>permisos</h1>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h2>permisos</h2></li>
+        </ul>
+        <br>
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                Especialidades
@@ -61,9 +52,7 @@
                 @endforeach
             </tbody>
         </table>
-        {{-- <div class="table table-striped">{{$species->links()}}</div> --}}
+        {{-- <div class="table table-striped">{{inserto()}}</div> --}}
     </div>
     <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-</body>
-</html>
+@endsection

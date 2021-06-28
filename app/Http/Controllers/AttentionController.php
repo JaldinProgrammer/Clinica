@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Attention;
 use App\Models\Reservation;
 use App\Models\Schedule;
+use App\Models\Location;
+use App\Models\Section;
+use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use App\Models\Binnacle;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 class AttentionController extends Controller
 {
     /**
@@ -15,9 +20,10 @@ class AttentionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
-        $attentions = Attention::all();
+        $attentions = Attention::paginate(5);
         $attentions->load('service');
         $attentions->load('nurse');
         $attentions->load('patient');
@@ -42,7 +48,7 @@ class AttentionController extends Controller
      */
     public function create()
     {
-        Attention::create([
+        $attention = Attention::create([
             'patient_id' => request('patient_id'),
             'nurse_id' => request('nurse_id'),
             'schedule_id' => request('schedule_id'),
@@ -53,15 +59,29 @@ class AttentionController extends Controller
             'date' => Carbon::now('America/Caracas')->today()
         ]);
 
+        Binnacle::create([
+            'entity' => "la atencion: ". $attention->id,
+            'action' => "inserto",
+            'table' => "Atencion",
+            'user_id'=> Auth::user()->id
+        ]);
         if(request('schedule_id') != null){
             $schedule = Schedule::findOrFail(request('schedule_id'));
-           // $reservation = Reservation::findOrFail(Schedule::select('reservation_id')->where('status',1)->get());
+            $reservation = Reservation::findOrFail($schedule->reservation_id);
+            $location = Location::findOrFail($reservation->location_id);
+            $section = Section::findOrFail($location->section_id);
+            $service = Service::findOrFail($attention->service_id);
+            $attention->totalPrice = $attention->totalPrice + $section->price + $service->price;
+            $attention->update();
             $schedule->status = 2;
             $schedule->update();
-
-
         }
         return redirect()->route('attention.attention',$schedule->id ); 
+    }
+
+    public function myAttentions($id){
+        $attentions = Attention::where('patient_id', $id)->paginate(7);
+        return view('report.attention', compact('attentions'));
     }
 
     public function update(Request $request, $id)
@@ -70,8 +90,16 @@ class AttentionController extends Controller
         $attention->checkIn = $request->get('checkIn');
         $attention->checkOut = $request->get('checkOut');
         $attention->update();
+        Binnacle::create([
+            'entity' => "la atencion: ".  $attention->id,
+            'action' => "se actualizo",
+            'table' => "Atencion",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('attention.attention',$attention->schedule_id ); 
     }
+
+ 
     /**
      * Store a newly created resource in storage.
      *

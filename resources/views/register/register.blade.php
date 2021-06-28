@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
+
     @if ($errors->count() > 0)
     <div class="alert alert-danger">
         <ul>
@@ -106,7 +99,7 @@
                     <div class="col-md-6 offset-md-4">
                         <button type="submit" class="btn btn-info ">
                             {{ __('Registrar') }}
-                            <i class="fas fa-paw"></i>
+                            <i class="fas fa-heartbeat"></i>
                         </button>
                     </div>
                 </div>
@@ -114,5 +107,4 @@
             </form>
         </div>
     </div>  
-</body>
-</html>
+@endsection

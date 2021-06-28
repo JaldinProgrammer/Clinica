@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
-</head>
-<body>
-    @include('layouts.nav')
+@extends('layouts.nav')
+@section('content')
     
     <div class="container"> 
-        <h1>Registro</h1> 
+        <br>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h2>Actualizar seccion</h2></li>
+        </ul>
+        <br>
         <div class="card-body">
             <form method="POST" action="{{ route('sections.update', $section->id) }}" enctype="multipart/form-data">
                 @csrf
@@ -47,7 +43,7 @@
                     <div class="col-md-6 offset-md-4">
                         <button type="submit" class="btn btn-info ">
                             {{ __('Actualizar') }}
-                            <i class="fas fa-paw"></i>
+                            <i class="fas fa-heartbeat"></i>
                         </button>
                     </div>
                 </div>
@@ -55,5 +51,4 @@
             </form>
         </div>
     </div>  
-</body>
-</html>
+@endsection

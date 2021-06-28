@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Speciality;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
+use App\Models\Binnacle;
+use Illuminate\Support\Facades\Auth;
 class SpecialityController extends Controller
 {
     /**
@@ -38,6 +40,12 @@ class SpecialityController extends Controller
         $Instrument_type = Speciality::findOrFail($id);
         $Instrument_type->status = 1;
         $Instrument_type->update();
+        Binnacle::create([
+            'entity' => $Instrument_type->name,
+            'action' => "activo",
+            'table' => "specialidad",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('speciality.all');
     }
 
@@ -45,6 +53,12 @@ class SpecialityController extends Controller
         $Instrument_type = Speciality::findOrFail($id);
         $Instrument_type->status = 0;
         $Instrument_type->update();
+        Binnacle::create([
+            'entity' => $Instrument_type->name,
+            'action' => "desactivo",
+            'table' => "specialidad",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('speciality.all');
     }
 
@@ -96,6 +110,12 @@ class SpecialityController extends Controller
         $speciality = Speciality::findOrFail($id);
         $speciality->name = Request('name');
         $speciality->update();
+        Binnacle::create([
+            'entity' => $speciality->name,
+            'action' => "actualizo",
+            'table' => "specialidad",
+            'user_id'=> Auth::user()->id
+        ]);
         return redirect()->route('speciality.all');
     }
 

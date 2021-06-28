@@ -7,5 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Binnacle extends Model
 {
-    use HasFactory;
+   use HasFactory;
+   protected $fillable = [
+    'entity',
+    'action',
+    'table',
+    'user_id'
+];
+   public function user(){
+    return $this->belongsTo('App\Models\User');
+   }
 }

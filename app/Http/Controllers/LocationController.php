@@ -7,7 +7,8 @@ use App\Models\Section;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Carbon\Carbon;
+use App\Models\Binnacle;
 class LocationController extends Controller
 {
     /**
@@ -67,6 +68,12 @@ class LocationController extends Controller
             'user_id'=> $request['user_id'],
             'section_id' => $request['section_id']
         ]);
+        Binnacle::create([
+            'entity' => $request['title'],
+            'action' => "inserto",
+            'table' => "Ubicaciones",
+            'user_id'=> Auth::user()->id
+        ]);
         $locations = Location::where('user_id',$user)->get();
         return view('report.locations', compact('locations'));
     }
@@ -74,6 +81,13 @@ class LocationController extends Controller
     public function showMap($id){
         $location = Location::findOrFail($id);
         return view('report.show_map', compact('location'));
+    }
+
+    public function locationsAll(){
+        $locations = Location::orderby('id','desc')->paginate(9);
+        $locations->load('user');
+        $locations->load('section');
+        return view('report.locationsAll', compact('locations'));
     }
     /**
      * Display the specified resource.

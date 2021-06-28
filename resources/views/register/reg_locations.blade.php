@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lab</title>
+    <link rel="shortcut icon" type="image/png" href=" {{asset('./Icons/hospital.png')}}">
+    <title>Laboratorio</title>
     <style>
         .google_canvas{
             height: 300px ;
@@ -17,7 +18,8 @@
     @include('layouts.nav')
 
         
-        <div class="container">           
+        <div class="container">      
+            <br>     
             <h2>Registra tu nueva ubicacion</h2>
             <br>
             <form action={{ route('user.locations.create') }} method="POST">
@@ -93,14 +95,10 @@
                             @enderror
                         </div>
                     <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                    <div class="form-group row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-info ">
-                                {{ __('Registrar') }}
-                                <i class="fas fa-paw"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <button type="submit" class="btn btn-info ">
+                        {{ __('Registrar') }}
+                        <i class="fas fa-heartbeat"></i>
+                    </button>
                     
                 </div>
             </form>    
